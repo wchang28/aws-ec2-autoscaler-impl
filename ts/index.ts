@@ -3,6 +3,8 @@ import {ImplementationBase, ConvertToWorkerKeyProc, Options as OptionsBase} from
 import {EC2} from 'aws-sdk';
 import * as events from "events";
 
+export {ConvertToWorkerKeyProc, Options as OptionsBase} from 'grid-autoscaler-impl-base';
+
 type EC2Instances = {[InstanceId: string]: EC2.Instance};
 
 export type InstanceToWorkerKeyProc = (instance: EC2.Instance) => WorkerKey;

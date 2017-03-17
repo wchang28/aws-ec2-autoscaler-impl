@@ -2,6 +2,7 @@
 import { IAutoScalerImplementation, WorkerKey, WorkerInstance, IWorkersLaunchRequest, AutoScalerImplementationInfo } from 'autoscalable-grid';
 import { ImplementationBase, ConvertToWorkerKeyProc, Options as OptionsBase } from 'grid-autoscaler-impl-base';
 import { EC2 } from 'aws-sdk';
+export { ConvertToWorkerKeyProc, Options as OptionsBase } from 'grid-autoscaler-impl-base';
 export declare type InstanceToWorkerKeyProc = (instance: EC2.Instance) => WorkerKey;
 export declare type InstanceMatchesWorkerKeyProc = (instance: EC2.Instance, workerKey: WorkerKey) => boolean;
 export interface IWorkerCharacteristic {
