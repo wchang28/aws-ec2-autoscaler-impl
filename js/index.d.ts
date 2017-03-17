@@ -1,8 +1,8 @@
 /// <reference types="es6-promise" />
 import { IAutoScalerImplementation, WorkerKey, WorkerInstance, IWorkersLaunchRequest, AutoScalerImplementationInfo } from 'autoscalable-grid';
-import { ImplementationBase, ConvertToWorkerKeyProc, Options as OptionsBase } from 'grid-autoscaler-impl-base';
+import { ImplementationBase, ConvertToWorkerKeyProc, Options as OptionsBase, ImplementationSetup as ImplementationBaseSetup } from 'grid-autoscaler-impl-base';
 import { EC2 } from 'aws-sdk';
-export { ConvertToWorkerKeyProc, Options as OptionsBase } from 'grid-autoscaler-impl-base';
+export { ConvertToWorkerKeyProc, Options as OptionsBase, ImplementationSetup as ImplementationBaseSetup } from 'grid-autoscaler-impl-base';
 export declare type InstanceToWorkerKeyProc = (instance: EC2.Instance) => WorkerKey;
 export declare type InstanceMatchesWorkerKeyProc = (instance: EC2.Instance, workerKey: WorkerKey) => boolean;
 export interface IWorkerCharacteristic {
@@ -30,4 +30,17 @@ export declare class Implementation extends ImplementationBase implements IAutoS
     private describeInstances();
     private lookupInstanceFromWorkerKey(instances, workerKey);
     private terminateInstances(InstanceIds);
+}
+export interface ImplementationSetup extends ImplementationBaseSetup {
+    getKeyName: () => Promise<string>;
+    setKeyName: (value: number) => Promise<string>;
+    getInstanceType: () => Promise<EC2.InstanceType>;
+    setInstanceType: (value: number) => Promise<EC2.InstanceType>;
+    getImageId: () => Promise<string>;
+    setImageId: (value: number) => Promise<string>;
+    getSecurityGroupId: () => Promise<string>;
+    setSecurityGroupId: (value: number) => Promise<string>;
+    getSubnetId: () => Promise<string>;
+    setSubnetId: (value: number) => Promise<string>;
+    toJSON: () => Promise<ImplementationJSON>;
 }
