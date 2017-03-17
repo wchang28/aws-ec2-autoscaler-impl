@@ -8,8 +8,8 @@
   "keywords": [
     "Grid",
     "Auto-Scaler",
-	"AWS",
-	"EC2"
+    "AWS",
+    "EC2"
   ],
   "repository": {
     "type": "git",
@@ -20,8 +20,8 @@
   "dependencies": {
     "@types/es6-promise": "0.0.32",
     "@types/node": "^6.0.42",
-	"autoscalable-grid": "git+https://github.com/wchang28/autoscalable-grid.git",
-	"aws-sdk": "^2.6.6",
-	"grid-autoscaler-impl-base": "git+https://github.com/wchang28/grid-autoscaler-impl-base.git"
+    "autoscalable-grid": "git+https://github.com/wchang28/autoscalable-grid.git",
+    "aws-sdk": "^2.6.6",
+    "grid-autoscaler-impl-base": "git+https://github.com/wchang28/grid-autoscaler-impl-base.git"
   }
 }
