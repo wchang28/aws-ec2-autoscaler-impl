@@ -33,15 +33,16 @@ export declare class Implementation extends ImplementationBase implements IAutoS
 }
 export interface IWorkerCharacteristicSetup {
     getKeyName: () => Promise<string>;
-    setKeyName: (value: number) => Promise<string>;
+    setKeyName: (value: string) => Promise<string>;
     getInstanceType: () => Promise<EC2.InstanceType>;
-    setInstanceType: (value: number) => Promise<EC2.InstanceType>;
+    setInstanceType: (value: EC2.InstanceType) => Promise<EC2.InstanceType>;
     getImageId: () => Promise<string>;
-    setImageId: (value: number) => Promise<string>;
+    setImageId: (value: string) => Promise<string>;
     getSecurityGroupId: () => Promise<string>;
-    setSecurityGroupId: (value: number) => Promise<string>;
+    setSecurityGroupId: (value: string) => Promise<string>;
     getSubnetId: () => Promise<string>;
-    setSubnetId: (value: number) => Promise<string>;
+    setSubnetId: (value: string) => Promise<string>;
+    toJSON: () => Promise<IWorkerCharacteristic>;
 }
 export interface IImplementationSetup extends IImplementationSetupBase {
     readonly WorkerCharacteristic: IWorkerCharacteristicSetup;
