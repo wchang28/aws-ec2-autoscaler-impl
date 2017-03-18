@@ -1,9 +1,9 @@
 import {IAutoScalerImplementation, WorkerKey, WorkerInstance, IWorkersLaunchRequest, AutoScalerImplementationInfo} from 'autoscalable-grid';
-import {ImplementationBase, ConvertToWorkerKeyProc, Options as OptionsBase, ImplementationSetup as ImplementationBaseSetup} from 'grid-autoscaler-impl-base';
+import {ImplementationBase, ConvertToWorkerKeyProc, Options as OptionsBase, IImplementationSetupBase} from 'grid-autoscaler-impl-base';
 import {EC2} from 'aws-sdk';
 import * as events from "events";
 
-export {ConvertToWorkerKeyProc, Options as OptionsBase, ImplementationSetup as ImplementationBaseSetup} from 'grid-autoscaler-impl-base';
+export {ConvertToWorkerKeyProc, Options as OptionsBase, IImplementationSetupBase} from 'grid-autoscaler-impl-base';
 
 type EC2Instances = {[InstanceId: string]: EC2.Instance};
 
@@ -224,7 +224,7 @@ export class Implementation extends ImplementationBase implements IAutoScalerImp
     }
 }
 
-export interface WorkerCharacteristicSetup {
+export interface IWorkerCharacteristicSetup {
     getKeyName: () => Promise<string>;
     setKeyName: (value: number) => Promise<string>;
     getInstanceType: () => Promise<EC2.InstanceType>;
@@ -237,7 +237,7 @@ export interface WorkerCharacteristicSetup {
     setSubnetId: (value: number) => Promise<string>;
 }
 
-export interface ImplementationSetup extends ImplementationBaseSetup {
-    readonly WorkerCharacteristic: WorkerCharacteristicSetup;
+export interface IImplementationSetup extends IImplementationSetupBase {
+    readonly WorkerCharacteristic: IWorkerCharacteristicSetup;
     toJSON: () => Promise<ImplementationJSON>;
 }
