@@ -224,7 +224,7 @@ export class Implementation extends ImplementationBase implements IAutoScalerImp
     }
 }
 
-export interface ImplementationSetup extends ImplementationBaseSetup {
+export interface WorkerCharacteristicSetup {
     getKeyName: () => Promise<string>;
     setKeyName: (value: number) => Promise<string>;
     getInstanceType: () => Promise<EC2.InstanceType>;
@@ -235,5 +235,9 @@ export interface ImplementationSetup extends ImplementationBaseSetup {
     setSecurityGroupId: (value: number) => Promise<string>;
     getSubnetId: () => Promise<string>;
     setSubnetId: (value: number) => Promise<string>;
+}
+
+export interface ImplementationSetup extends ImplementationBaseSetup {
+    readonly WorkerCharacteristic: WorkerCharacteristicSetup;
     toJSON: () => Promise<ImplementationJSON>;
 }
