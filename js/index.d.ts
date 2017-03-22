@@ -1,4 +1,3 @@
-/// <reference types="es6-promise" />
 import { IAutoScalerImplementation, WorkerKey, WorkerInstance, IWorkersLaunchRequest, AutoScalerImplementationInfo } from 'autoscalable-grid';
 import { ImplementationBase, ConvertToWorkerKeyProc, Options as OptionsBase, IImplementationSetupBase } from 'grid-autoscaler-impl-base';
 import { EC2 } from 'aws-sdk';
