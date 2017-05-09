@@ -1,6 +1,6 @@
 {
   "name": "aws-ec2-autoscaler-impl",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "AWS EC2 Grid Auto-Scaler Implementation Class",
   "main": "./js/index.js",
   "typings": "./js/index.d.ts",
@@ -18,10 +18,9 @@
   "author": "Wen Chang",
   "license": "MIT",
   "dependencies": {
-    "@types/es6-promise": "0.0.32",
-    "@types/node": "^6.0.42",
+    "@types/node": "^6.0.73",
     "autoscalable-grid": "git+https://github.com/wchang28/autoscalable-grid.git",
-    "aws-sdk": "^2.6.6",
+    "aws-sdk": "^2.49.0",
     "grid-autoscaler-impl-base": "git+https://github.com/wchang28/grid-autoscaler-impl-base.git"
   }
 }
