@@ -10,6 +10,7 @@ export interface IWorkerCharacteristic {
     ImageId: string;
     SecurityGroupId: string;
     SubnetId: string;
+    IAMRoleName?: string;
 }
 export interface Options extends OptionsBase {
     WorkerCharacteristic: IWorkerCharacteristic;
@@ -41,6 +42,8 @@ export interface IWorkerCharacteristicSetup {
     setSecurityGroupId: (value: string) => Promise<string>;
     getSubnetId: () => Promise<string>;
     setSubnetId: (value: string) => Promise<string>;
+    getIAMRoleName: () => Promise<string>;
+    setIAMRoleName: (value: string) => Promise<string>;
     toJSON: () => Promise<IWorkerCharacteristic>;
 }
 export interface IImplementationSetup extends IImplementationSetupBase {

@@ -16,6 +16,7 @@ export interface IWorkerCharacteristic {
     ImageId: string;
     SecurityGroupId: string;
     SubnetId: string;
+    IAMRoleName?: string;
 }
 
 export interface Options extends OptionsBase {
@@ -28,6 +29,7 @@ class WorkerCharacteristic extends events.EventEmitter implements IWorkerCharact
     private __ImageId: string;
     private __SecurityGroupId: string;
     private __SubnetId: string;
+    private __IAMRoleName: string;
 
     constructor(characteristic: IWorkerCharacteristic) {
         super();
@@ -36,6 +38,7 @@ class WorkerCharacteristic extends events.EventEmitter implements IWorkerCharact
         this.__ImageId = characteristic.ImageId;
         this.__SecurityGroupId = characteristic.SecurityGroupId;
         this.__SubnetId = characteristic.SubnetId;
+        this.__IAMRoleName  = (characteristic.IAMRoleName ? characteristic.IAMRoleName : null);
     }
 
     get KeyName() : string {return this.__KeyName;}
@@ -73,6 +76,13 @@ class WorkerCharacteristic extends events.EventEmitter implements IWorkerCharact
             this.emit('change');
         }
     }
+    get IAMRoleName() : string {return this.__IAMRoleName;}
+    set IAMRoleName(newValue: string) {
+        if (newValue !== this.__IAMRoleName) {
+            this.__IAMRoleName = newValue;
+            this.emit('change');
+        }
+    }
     toJSON(): IWorkerCharacteristic {
         return {
             KeyName: this.KeyName
@@ -80,6 +90,7 @@ class WorkerCharacteristic extends events.EventEmitter implements IWorkerCharact
             ,ImageId: this.ImageId
             ,SecurityGroupId: this.__SecurityGroupId
             ,SubnetId: this.SubnetId
+            ,IAMRoleName: this.IAMRoleName
         }
     }
 }
@@ -178,7 +189,8 @@ export class Implementation extends ImplementationBase implements IAutoScalerImp
             ,InstanceType: this.WorkerCharacteristic.InstanceType
             ,SecurityGroupIds: [this.WorkerCharacteristic.SecurityGroupId]
             ,SubnetId: this.WorkerCharacteristic.SubnetId
-        }
+            ,IamInstanceProfile: (this.WorkerCharacteristic.IAMRoleName ? {Name: this.WorkerCharacteristic.IAMRoleName} : null)
+        };
         return this.ec2.runInstances(params).promise();
     }
     private describeInstances() : Promise<EC2Instances> {
@@ -235,6 +247,8 @@ export interface IWorkerCharacteristicSetup {
     setSecurityGroupId: (value: string) => Promise<string>;
     getSubnetId: () => Promise<string>;
     setSubnetId: (value: string) => Promise<string>;
+    getIAMRoleName: () => Promise<string>;
+    setIAMRoleName: (value: string) => Promise<string>;
     toJSON: () => Promise<IWorkerCharacteristic>;
 }
 

@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var grid_autoscaler_impl_base_1 = require("grid-autoscaler-impl-base");
 var aws_sdk_1 = require("aws-sdk");
 var events = require("events");
-var WorkerCharacteristic = (function (_super) {
+var WorkerCharacteristic = /** @class */ (function (_super) {
     __extends(WorkerCharacteristic, _super);
     function WorkerCharacteristic(characteristic) {
         var _this = _super.call(this) || this;
@@ -22,6 +22,7 @@ var WorkerCharacteristic = (function (_super) {
         _this.__ImageId = characteristic.ImageId;
         _this.__SecurityGroupId = characteristic.SecurityGroupId;
         _this.__SubnetId = characteristic.SubnetId;
+        _this.__IAMRoleName = (characteristic.IAMRoleName ? characteristic.IAMRoleName : null);
         return _this;
     }
     Object.defineProperty(WorkerCharacteristic.prototype, "KeyName", {
@@ -79,18 +80,30 @@ var WorkerCharacteristic = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(WorkerCharacteristic.prototype, "IAMRoleName", {
+        get: function () { return this.__IAMRoleName; },
+        set: function (newValue) {
+            if (newValue !== this.__IAMRoleName) {
+                this.__IAMRoleName = newValue;
+                this.emit('change');
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     WorkerCharacteristic.prototype.toJSON = function () {
         return {
             KeyName: this.KeyName,
             InstanceType: this.InstanceType,
             ImageId: this.ImageId,
             SecurityGroupId: this.__SecurityGroupId,
-            SubnetId: this.SubnetId
+            SubnetId: this.SubnetId,
+            IAMRoleName: this.IAMRoleName
         };
     };
     return WorkerCharacteristic;
 }(events.EventEmitter));
-var Implementation = (function (_super) {
+var Implementation = /** @class */ (function (_super) {
     __extends(Implementation, _super);
     function Implementation(info, workerToKey, instanceToWorkerKey, instanceMatchesWorkerKey, options) {
         var _this = _super.call(this, info, workerToKey, { CPUsPerInstance: options.CPUsPerInstance }) || this;
@@ -183,7 +196,8 @@ var Implementation = (function (_super) {
             KeyName: this.WorkerCharacteristic.KeyName,
             InstanceType: this.WorkerCharacteristic.InstanceType,
             SecurityGroupIds: [this.WorkerCharacteristic.SecurityGroupId],
-            SubnetId: this.WorkerCharacteristic.SubnetId
+            SubnetId: this.WorkerCharacteristic.SubnetId,
+            IamInstanceProfile: (this.WorkerCharacteristic.IAMRoleName ? { Name: this.WorkerCharacteristic.IAMRoleName } : null)
         };
         return this.ec2.runInstances(params).promise();
     };

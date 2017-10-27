@@ -1,6 +1,6 @@
 {
   "name": "aws-ec2-autoscaler-impl",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "AWS EC2 Grid Auto-Scaler Implementation Class",
   "main": "./js/index.js",
   "typings": "./js/index.d.ts",
