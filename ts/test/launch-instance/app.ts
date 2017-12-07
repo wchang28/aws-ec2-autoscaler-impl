@@ -32,6 +32,9 @@ function launchInstances(NumInstances: number, WorkerCharacteristic: IWorkerChar
         ,SubnetId: WorkerCharacteristic.SubnetId
         ,IamInstanceProfile: (WorkerCharacteristic.IAMRoleName ? {Name: WorkerCharacteristic.IAMRoleName} : null)
     };
+    if (WorkerCharacteristic.NameTag) {
+        params.TagSpecifications = [{ResourceType: "instance", Tags:[{Key: "Name", Value: WorkerCharacteristic.NameTag}]}];
+    }
     return ec2.runInstances(params).promise();
 }
 

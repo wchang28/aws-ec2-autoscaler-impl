@@ -28,6 +28,9 @@ function launchInstances(NumInstances, WorkerCharacteristic) {
         SubnetId: WorkerCharacteristic.SubnetId,
         IamInstanceProfile: (WorkerCharacteristic.IAMRoleName ? { Name: WorkerCharacteristic.IAMRoleName } : null)
     };
+    if (WorkerCharacteristic.NameTag) {
+        params.TagSpecifications = [{ ResourceType: "instance", Tags: [{ Key: "Name", Value: WorkerCharacteristic.NameTag }] }];
+    }
     return ec2.runInstances(params).promise();
 }
 var WorkerCharacteristic = JSON.parse(fs.readFileSync(characteristicFile, "utf8"));
@@ -37,3 +40,4 @@ launchInstances(1, WorkerCharacteristic)
 }).catch(function (err) {
     console.log("!!! Error: " + JSON.stringify(err));
 });
+//# sourceMappingURL=app.js.map

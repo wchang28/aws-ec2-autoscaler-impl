@@ -23,6 +23,7 @@ var WorkerCharacteristic = /** @class */ (function (_super) {
         _this.__SecurityGroupId = characteristic.SecurityGroupId;
         _this.__SubnetId = characteristic.SubnetId;
         _this.__IAMRoleName = (characteristic.IAMRoleName ? characteristic.IAMRoleName : null);
+        _this.__NameTag = (characteristic.NameTag ? characteristic.NameTag : null);
         return _this;
     }
     Object.defineProperty(WorkerCharacteristic.prototype, "KeyName", {
@@ -91,14 +92,26 @@ var WorkerCharacteristic = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(WorkerCharacteristic.prototype, "NameTag", {
+        get: function () { return this.__NameTag; },
+        set: function (newValue) {
+            if (newValue !== this.__NameTag) {
+                this.__NameTag = newValue;
+                this.emit('change');
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     WorkerCharacteristic.prototype.toJSON = function () {
         return {
             KeyName: this.KeyName,
             InstanceType: this.InstanceType,
             ImageId: this.ImageId,
-            SecurityGroupId: this.__SecurityGroupId,
+            SecurityGroupId: this.SecurityGroupId,
             SubnetId: this.SubnetId,
-            IAMRoleName: this.IAMRoleName
+            IAMRoleName: this.IAMRoleName,
+            NameTag: this.NameTag
         };
     };
     return WorkerCharacteristic;
@@ -199,6 +212,9 @@ var Implementation = /** @class */ (function (_super) {
             SubnetId: this.WorkerCharacteristic.SubnetId,
             IamInstanceProfile: (this.WorkerCharacteristic.IAMRoleName ? { Name: this.WorkerCharacteristic.IAMRoleName } : null)
         };
+        if (this.WorkerCharacteristic.NameTag) {
+            params.TagSpecifications = [{ ResourceType: "instance", Tags: [{ Key: "Name", Value: this.WorkerCharacteristic.NameTag }] }];
+        }
         return this.ec2.runInstances(params).promise();
     };
     Implementation.prototype.describeInstances = function () {
@@ -249,3 +265,4 @@ var Implementation = /** @class */ (function (_super) {
     return Implementation;
 }(grid_autoscaler_impl_base_1.ImplementationBase));
 exports.Implementation = Implementation;
+//# sourceMappingURL=index.js.map
